@@ -1,6 +1,18 @@
-from django.shortcuts import render
-# from django.http import HttpResponse
-# Create your views here.
-def index(request):
-    # return HttpResponse("<h1>The Home Page</h1>")
-    return render(request, "pages/page.html")
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+# from django.core.mail import send_mail, get_connection
+
+from . models import Page
+# from .forms import ContactForm
+
+def index(request, pagename):
+    pagename = '/' + pagename
+    pg = get_object_or_404(Page, permalink=pagename)
+    context = {
+        'title': pg.title,
+        'content': pg.bodytext,
+        'last_updated': pg.update_date,
+        'page_list': Page.objects.all(),
+    }
+    # assert False
+    return render(request, 'pages/page.html', context)
