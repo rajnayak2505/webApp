@@ -1,10 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from django import forms
-# from django.core.mail import send_mail, get_connection
+from django.core.mail import send_mail, get_connection
 
 from . models import Page
-# from .forms import ContactForm
+from pages.forms import ContactForm
 
 def index(request, pagename):
     pagename = '/' + pagename
@@ -18,8 +17,24 @@ def index(request, pagename):
     # assert False
     return render(request, 'pages/page.html', context)
 
-class ContactForm(forms.Form):
-    subject = forms.CharField(max_length=100)
-    email = forms.EmailField(required=Fales, label='Your E-mail Address')
-    messages =forms.CharField(widget=forms.Textarea)
-    
+def contact(request):
+    submitted = False
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            con = get_connection('django.core.mail.backends.console.EmailBackend')
+            send_mail(
+                cd['subject'],
+                cd['message'],
+                cd.get('email', 'noreply@example.com'),
+                ['siteowner@example.com'],
+                connection=con
+            )
+            return HttpResponseRedirect('/contact?submitted=True')
+    else:
+        form = ContactForm()
+        if 'submitted' in request.GET:
+            submitted = True
+
+    return render(request, 'pages/contact.html', {'form': form, 'page_list': Page.objects.all(), 'submitted': submitted})
