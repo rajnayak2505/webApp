@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title></title>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header id="header">
+        <div id="logo"><img src="{% static 'images/logo.jpg' %}" alt="">
+        <div id="topbanner">
+          <img src="{% static 'images/banner.jpg' %}" alt="">
+        </div>
+        </div>
+      </header>
+      <aside id="leftsidebar">
+        <nav id="nav">
+          <ul>
+            <li>Menu 1</li>
+            <li>Menu 2</li>
+            <li>Menu 3</li>
+          </ul
+        </nav>
+      </aside>
+      <section id="main">
+        {% block content %}
+        <h1>Welcome!</h1>
+        <p>This is Site Template</p>
+        {% endblock content %}
+      </section>
+      <footer id="footer">Copyright &copy; 2018</footer>
+    </div>
+  </body>
+</html>
