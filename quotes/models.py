@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+
 STATUS_CHOICES = (
     ('NEW', 'New Site'),
     ('EX', 'Existing Site'),
 )
+
 PRIORITY_CHOICES = (
     ('U', 'Urgent - 1 week or less'),
     ('N', 'Normal - 2 to 4 weeks'),
